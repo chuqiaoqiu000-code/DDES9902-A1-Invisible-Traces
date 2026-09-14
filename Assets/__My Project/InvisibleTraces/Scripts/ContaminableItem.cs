@@ -59,6 +59,19 @@ namespace InvisibleTraces
         private void OnCollisionEnter(Collision collision)
         {
             var other = collision.collider.GetComponentInParent<ContaminableItem>();
+            TransferOnContact(other);
+        }
+
+        private void OnTriggerEnter(Collider otherCollider)
+        {
+            // EZPZ Holdable temporarily changes colliders to triggers while objects
+            // are carried, so trigger contact must propagate contamination too.
+            var other = otherCollider.GetComponentInParent<ContaminableItem>();
+            TransferOnContact(other);
+        }
+
+        private void TransferOnContact(ContaminableItem other)
+        {
             if (other == null || other == this)
                 return;
 

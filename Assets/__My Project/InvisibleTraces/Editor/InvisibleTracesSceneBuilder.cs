@@ -127,23 +127,31 @@ public static class InvisibleTracesSceneBuilder
     private static void CreateInformationBoards(InvisibleTracesManager manager, Material[] p)
     {
         var board = Cube("ORDER AND FEEDBACK BOARD", new Vector3(0, 2.9f, 5.82f), new Vector3(5.8f, 2.5f, 0.12f), p[9]);
-        manager.objectiveText = Text("Objective", "PEANUT-FREE ORDER", new Vector3(0, 3.65f, 5.72f), 0.24f, Color.white, TextAlignmentOptions.Center);
-        manager.feedbackText = Text("Feedback", "Loading training scenario...", new Vector3(0, 2.92f, 5.71f), 0.14f, new Color(0.85f, 0.92f, 0.95f), TextAlignmentOptions.Center);
-        manager.progressText = Text("Progress", "WORKTOP [TODO]   HANDS [TODO]", new Vector3(0, 2.18f, 5.71f), 0.13f, new Color(0.4f, 0.9f, 0.66f), TextAlignmentOptions.Center);
+        manager.objectiveText = Text("Objective", "PEANUT-FREE ORDER", new Vector3(0, 3.65f, 5.72f), 0.30f, Color.white, TextAlignmentOptions.Center);
+        manager.feedbackText = Text("Feedback", "Loading training scenario...", new Vector3(0, 2.92f, 5.71f), 0.18f, new Color(0.85f, 0.92f, 0.95f), TextAlignmentOptions.Center);
+        manager.progressText = Text("Progress", "WORKTOP [TODO]   HANDS [TODO]", new Vector3(0, 2.18f, 5.71f), 0.15f, new Color(0.4f, 0.9f, 0.66f), TextAlignmentOptions.Center);
         manager.traceLegendText = Text("Trace Legend", "TRACE MODE: MAGENTA = PEANUT ALLERGEN PATH", new Vector3(0, 1.78f, 5.69f), 0.11f, new Color(1f, 0.25f, 0.8f), TextAlignmentOptions.Center);
 
         SetTextArea(manager.objectiveText, 5.2f, 0.55f);
         SetTextArea(manager.feedbackText, 5.2f, 0.9f);
         SetTextArea(manager.progressText, 5.2f, 0.5f);
         SetTextArea(manager.traceLegendText, 5.2f, 0.35f);
+
+        Cube("CONTROL GUIDE BOARD", new Vector3(-4.35f, 2.75f, 5.82f), new Vector3(2.2f, 1.5f, 0.12f), p[9]);
+        var controls = Text("Control Guide", "HOW TO INTERACT\n\nWASD  Move\nMOUSE  Look / aim\nLEFT CLICK  Use / carry / place\nL  Restart scene", new Vector3(-4.35f, 2.75f, 5.71f), 0.13f, Color.white, TextAlignmentOptions.Center);
+        SetTextArea(controls, 1.9f, 1.25f);
+
+        Cube("TASK STEPS BOARD", new Vector3(4.35f, 2.75f, 5.82f), new Vector3(2.2f, 1.5f, 0.12f), p[9]);
+        var steps = Text("Task Steps", "SAFE WORKFLOW\n\n1  Inspect hidden risk\n2  Clean worktop\n3  Wash hands\n4  Place clean knife + food", new Vector3(4.35f, 2.75f, 5.71f), 0.13f, Color.white, TextAlignmentOptions.Center);
+        SetTextArea(steps, 1.9f, 1.25f);
     }
 
     private static void CreateActionStations(Material[] p)
     {
-        Station("CLEAN WORKTOP", new Vector3(-1.75f, 1.65f, 1.35f), TrainingActionStation.ActionType.CleanWorkstation, p[5], "Remove visible residue\nbefore preparation");
-        Station("WASH HANDS", new Vector3(0, 1.65f, 1.35f), TrainingActionStation.ActionType.WashHands, p[3], "Control the hand-contact\npathway");
-        Station("TRACE MODE", new Vector3(1.75f, 1.65f, 1.35f), TrainingActionStation.ActionType.ToggleTraceMode, p[11], "Reveal otherwise invisible\ncontamination");
-        Station("RESET", new Vector3(4.65f, 1.55f, 5.4f), TrainingActionStation.ActionType.ResetTraining, p[4], "Try the procedure again");
+        Station("1  TRACE MODE", new Vector3(-2.05f, 1.65f, 1.35f), TrainingActionStation.ActionType.ToggleTraceMode, p[11], "Reveal otherwise invisible\ncontamination");
+        Station("2  CLEAN WORKTOP", new Vector3(-0.68f, 1.65f, 1.35f), TrainingActionStation.ActionType.CleanWorkstation, p[5], "Remove visible residue\nbefore preparation");
+        Station("3  WASH HANDS", new Vector3(0.68f, 1.65f, 1.35f), TrainingActionStation.ActionType.WashHands, p[3], "Control the hand-contact\npathway");
+        Station("RESET", new Vector3(2.05f, 1.65f, 1.35f), TrainingActionStation.ActionType.ResetTraining, p[4], "Try the procedure again");
     }
 
     private static void Station(string label, Vector3 position, TrainingActionStation.ActionType action, Material material, string detail)

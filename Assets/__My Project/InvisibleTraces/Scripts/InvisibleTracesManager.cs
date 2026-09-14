@@ -19,6 +19,9 @@ namespace InvisibleTraces
         private bool handsWashed;
         private bool traceMode;
         private bool completed;
+        private static readonly Color NeutralFeedback = new Color(0.85f, 0.92f, 0.95f);
+        private static readonly Color PositiveFeedback = new Color(0.35f, 1f, 0.58f);
+        private static readonly Color WarningFeedback = new Color(1f, 0.42f, 0.24f);
 
         private void Awake()
         {
@@ -35,6 +38,7 @@ namespace InvisibleTraces
         {
             if (completed) return;
             workstationClean = true;
+            feedbackText.color = PositiveFeedback;
             feedbackText.text = "WORKTOP CLEANED\nGood: remove residue before handling safe ingredients.";
             UpdateProgress();
         }
@@ -43,6 +47,7 @@ namespace InvisibleTraces
         {
             if (completed) return;
             handsWashed = true;
+            feedbackText.color = workstationClean ? PositiveFeedback : WarningFeedback;
             feedbackText.text = workstationClean
                 ? "HANDS WASHED\nYou are ready to handle clean equipment."
                 : "HANDS WASHED - BUT THE WORKTOP IS STILL A HAZARD\nClean the shared surface before preparing the order.";
@@ -56,6 +61,7 @@ namespace InvisibleTraces
                 item.SetTraceMode(traceMode);
 
             traceLegendText.gameObject.SetActive(traceMode);
+            feedbackText.color = traceMode ? new Color(1f, 0.35f, 0.82f) : NeutralFeedback;
             feedbackText.text = traceMode
                 ? "TRACE MODE ON\nMagenta reveals otherwise invisible allergen contamination."
                 : "TRACE MODE OFF\nThe hazard is invisible again, as it is in a real kitchen.";
@@ -69,6 +75,8 @@ namespace InvisibleTraces
             if (item.IsContaminated)
             {
                 completed = true;
+                objectiveText.color = WarningFeedback;
+                feedbackText.color = WarningFeedback;
                 feedbackText.text = "ORDER UNSAFE\n" + item.displayName +
                                     " carries peanut contamination. Use Trace Mode to investigate, then reset.";
                 progressText.text = "OUTCOME: CROSS-CONTAMINATION DETECTED";
@@ -77,11 +85,13 @@ namespace InvisibleTraces
 
             if (!workstationClean || !handsWashed)
             {
+                feedbackText.color = WarningFeedback;
                 feedbackText.text = "PROCESS RISK\nPrepare the workspace and wash hands before placing food or tools.";
                 return;
             }
 
             preparedItems.Add(item.itemId);
+            feedbackText.color = PositiveFeedback;
             feedbackText.text = item.displayName + " added safely to the preparation zone.";
             UpdateProgress();
 
@@ -90,6 +100,7 @@ namespace InvisibleTraces
                 preparedItems.Contains("vegetables"))
             {
                 completed = true;
+                objectiveText.color = PositiveFeedback;
                 objectiveText.text = "ORDER COMPLETE";
                 feedbackText.text = "SAFE ORDER COMPLETED\nYou controlled the surface, hand, tool and ingredient pathway.";
                 progressText.text = "OUTCOME: SAFE PROCEDURE ACHIEVED";
@@ -99,7 +110,10 @@ namespace InvisibleTraces
         public void ReportTransfer(string source, string destination)
         {
             if (!completed)
+            {
+                feedbackText.color = WarningFeedback;
                 feedbackText.text = "CONTACT RECORDED\nA hidden trace moved from " + source + " to " + destination + ".";
+            }
         }
 
         public void ResetTraining()
@@ -121,6 +135,8 @@ namespace InvisibleTraces
             }
 
             objectiveText.text = "PEANUT-FREE ORDER\nInspect risk, clean the worktop, wash hands, then prepare safely.";
+            objectiveText.color = Color.white;
+            feedbackText.color = NeutralFeedback;
             feedbackText.text = "A peanut-butter order was prepared here moments ago.\nThe contamination is invisible. What should you do first?";
             traceLegendText.gameObject.SetActive(false);
             UpdateProgress();
