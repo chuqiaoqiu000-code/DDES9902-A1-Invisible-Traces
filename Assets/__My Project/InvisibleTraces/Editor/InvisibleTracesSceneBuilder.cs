@@ -198,8 +198,6 @@ public static class InvisibleTracesSceneBuilder
             h.freezeRotation = true;
         }
 
-        var label = Text(name + " Label", name.ToUpperInvariant(), position + new Vector3(0, 0.5f, 0), 0.09f, contaminated ? new Color(1f, 0.55f, 0.2f) : Color.white, TextAlignmentOptions.Center);
-        SetTextArea(label, 1.8f, 0.25f);
         return item;
     }
 
@@ -227,13 +225,15 @@ public static class InvisibleTracesSceneBuilder
     {
         var go = new GameObject(name);
         go.transform.position = position;
-        go.transform.rotation = Quaternion.Euler(0, 180, 0);
+        // TextMeshPro's front face already points toward the player at negative Z.
+        // Rotating it 180 degrees mirrors every label in Game view.
+        go.transform.rotation = Quaternion.identity;
         var text = go.AddComponent<TextMeshPro>();
         text.text = content;
         text.fontSize = size * 10f;
         text.color = colour;
         text.alignment = alignment;
-        text.enableWordWrapping = true;
+        text.textWrappingMode = TextWrappingModes.Normal;
         return text;
     }
 
