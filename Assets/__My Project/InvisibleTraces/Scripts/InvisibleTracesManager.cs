@@ -134,10 +134,10 @@ namespace InvisibleTraces
                     holdable.ResetOrientation();
             }
 
-            objectiveText.text = "PEANUT-FREE ORDER\nInspect risk, clean the worktop, wash hands, then prepare safely.";
+            objectiveText.text = "PEANUT-FREE ORDER\nInspect. Clean. Wash. Prepare safely.";
             objectiveText.color = Color.white;
             feedbackText.color = NeutralFeedback;
-            feedbackText.text = "A peanut-butter order was prepared here moments ago.\nThe contamination is invisible. What should you do first?";
+            feedbackText.text = "A peanut-butter order was prepared here moments ago.\nThe contamination is invisible. Inspect before you act.";
             traceLegendText.gameObject.SetActive(false);
             UpdateProgress();
         }
