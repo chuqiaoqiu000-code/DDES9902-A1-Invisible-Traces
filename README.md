@@ -62,3 +62,7 @@ high-resolution assets or commercial polish.
 - V2 places all primary actions on the same counter, adds numbered steps and an
   in-world control guide, strengthens outcome colours, and supports contaminant
   transfer while an EZPZ Holdable is being carried.
+- WebGL testing revealed that text which was readable in the Editor overlapped
+  at the embedded browser viewport. V3 increases the initial viewing distance,
+  shortens persistent labels, and moves object detail into contextual hover
+  feedback.

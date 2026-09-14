@@ -120,7 +120,7 @@ public static class InvisibleTracesSceneBuilder
 
         var player = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
         player.name = "EZPZ PLAYER - Spatial Ray Interaction";
-        player.transform.position = new Vector3(0, 0.05f, -3.8f);
+        player.transform.position = new Vector3(0, 0.05f, -5.0f);
         player.transform.rotation = Quaternion.identity;
     }
 
@@ -129,8 +129,8 @@ public static class InvisibleTracesSceneBuilder
         Cube("ORDER AND FEEDBACK BOARD", new Vector3(0, 3.45f, 5.82f), new Vector3(5.8f, 2.8f, 0.12f), p[9]);
         manager.objectiveText = Text("Objective", "PEANUT-FREE ORDER", new Vector3(0, 4.25f, 5.70f), 0.22f, Color.white, TextAlignmentOptions.Center);
         manager.feedbackText = Text("Feedback", "Loading training scenario...", new Vector3(0, 3.35f, 5.69f), 0.12f, new Color(0.85f, 0.92f, 0.95f), TextAlignmentOptions.Center);
-        manager.progressText = Text("Progress", "WORKTOP [TODO]   HANDS [TODO]", new Vector3(0, 2.58f, 5.68f), 0.10f, new Color(0.4f, 0.9f, 0.66f), TextAlignmentOptions.Center);
-        manager.traceLegendText = Text("Trace Legend", "MAGENTA = PEANUT ALLERGEN PATH", new Vector3(0, 2.20f, 5.67f), 0.085f, new Color(1f, 0.25f, 0.8f), TextAlignmentOptions.Center);
+        manager.progressText = Text("Progress", "WORKTOP [TODO]   HANDS [TODO]", new Vector3(0, 2.72f, 5.68f), 0.085f, new Color(0.4f, 0.9f, 0.66f), TextAlignmentOptions.Center);
+        manager.traceLegendText = Text("Trace Legend", "MAGENTA = PEANUT ALLERGEN PATH", new Vector3(0, 2.30f, 5.67f), 0.07f, new Color(1f, 0.25f, 0.8f), TextAlignmentOptions.Center);
 
         SetTextArea(manager.objectiveText, 5.2f, 0.95f);
         SetTextArea(manager.feedbackText, 5.2f, 1.05f);
@@ -138,11 +138,11 @@ public static class InvisibleTracesSceneBuilder
         SetTextArea(manager.traceLegendText, 5.2f, 0.35f);
 
         Cube("CONTROL GUIDE BOARD", new Vector3(-4.35f, 3.35f, 5.82f), new Vector3(2.2f, 2.4f, 0.12f), p[9]);
-        var controls = Text("Control Guide", "HOW TO INTERACT\n\nWASD - Move\nMOUSE - Look / aim\nLEFT CLICK - Use / carry / place\nL - Restart", new Vector3(-4.35f, 3.35f, 5.70f), 0.09f, Color.white, TextAlignmentOptions.Center);
+        var controls = Text("Control Guide", "HOW TO INTERACT\n\nWASD - Move\nMOUSE - Aim\nCLICK - Use / carry / place\nL - Restart", new Vector3(-4.35f, 3.35f, 5.70f), 0.072f, Color.white, TextAlignmentOptions.Center);
         SetTextArea(controls, 1.85f, 2.0f);
 
         Cube("TASK STEPS BOARD", new Vector3(4.35f, 3.35f, 5.82f), new Vector3(2.2f, 2.4f, 0.12f), p[9]);
-        var steps = Text("Task Steps", "SAFE WORKFLOW\n\n1 - Inspect hidden risk\n2 - Clean worktop\n3 - Wash hands\n4 - Place clean knife + food", new Vector3(4.35f, 3.35f, 5.70f), 0.09f, Color.white, TextAlignmentOptions.Center);
+        var steps = Text("Task Steps", "SAFE WORKFLOW\n\n1 - Inspect risk\n2 - Clean worktop\n3 - Wash hands\n4 - Place safe items", new Vector3(4.35f, 3.35f, 5.70f), 0.072f, Color.white, TextAlignmentOptions.Center);
         SetTextArea(steps, 1.85f, 2.0f);
     }
 
@@ -161,7 +161,7 @@ public static class InvisibleTracesSceneBuilder
         interactable.hoverText = label + "\n" + detail + "\nClick to activate";
         interactable.customTouchDistance = 8f;
         button.AddComponent<TrainingActionStation>().action = action;
-        var text = Text(label + " Label", label, position + new Vector3(0, 0.18f, -0.34f), 0.11f, Color.white, TextAlignmentOptions.Center);
+        var text = Text(label + " Label", label, position + new Vector3(0, 0.18f, -0.34f), 0.055f, Color.white, TextAlignmentOptions.Center);
         SetTextArea(text, 1.25f, 0.28f);
     }
 
@@ -212,10 +212,6 @@ public static class InvisibleTracesSceneBuilder
     private static void CreateRiskStoryProps(Material[] p)
     {
         Cube("Peanut Butter Jar", new Vector3(-4.8f, 1.88f, 3.85f), new Vector3(0.38f, 0.6f, 0.38f), p[10]);
-        var risk = Text("Risk Context", "RISK AREA\nUSED FOR PEANUT BUTTER", new Vector3(-4.25f, 2.35f, 3.0f), 0.09f, new Color(1f, 0.56f, 0.22f), TextAlignmentOptions.Center);
-        SetTextArea(risk, 2.5f, 0.7f);
-        var safe = Text("Safe Context", "SAFE AREA\nSEALED FOOD + CLEAN BLUE TOOL", new Vector3(4.25f, 2.35f, 3.0f), 0.09f, new Color(0.35f, 0.8f, 1f), TextAlignmentOptions.Center);
-        SetTextArea(safe, 2.5f, 0.7f);
     }
 
     private static GameObject Cube(string name, Vector3 position, Vector3 scale, Material material, Transform parent = null)
