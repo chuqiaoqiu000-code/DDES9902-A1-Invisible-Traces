@@ -17,6 +17,7 @@ namespace InvisibleTraces
         private ContaminableItem[] contaminableItems;
         private bool workstationClean;
         private bool handsWashed;
+        private bool inspectionCompleted;
         private bool traceMode;
         private bool completed;
         private static readonly Color NeutralFeedback = new Color(0.85f, 0.92f, 0.95f);
@@ -38,8 +39,12 @@ namespace InvisibleTraces
         {
             if (completed) return;
             workstationClean = true;
-            feedbackText.color = PositiveFeedback;
-            feedbackText.text = "WORKTOP CLEANED\nGood: remove residue before handling safe ingredients.";
+            var mustRewash = handsWashed;
+            handsWashed = false;
+            feedbackText.color = mustRewash ? WarningFeedback : PositiveFeedback;
+            feedbackText.text = mustRewash
+                ? "WORKTOP CLEANED - WASH HANDS AGAIN\nCleaning controlled the surface, but created new hand contact. Sequence matters."
+                : "WORKTOP CLEANED\nSurface residue removed. Wash hands before touching clean equipment.";
             UpdateProgress();
         }
 
@@ -57,6 +62,8 @@ namespace InvisibleTraces
         public void ToggleTraceMode()
         {
             traceMode = !traceMode;
+            if (traceMode)
+                inspectionCompleted = true;
             foreach (var item in contaminableItems)
                 item.SetTraceMode(traceMode);
 
@@ -65,6 +72,7 @@ namespace InvisibleTraces
             feedbackText.text = traceMode
                 ? "TRACE MODE ON\nMagenta reveals otherwise invisible allergen contamination."
                 : "TRACE MODE OFF\nThe hazard is invisible again, as it is in a real kitchen.";
+            UpdateProgress();
         }
 
         public void RegisterPreparedItem(ContaminableItem item)
@@ -76,10 +84,12 @@ namespace InvisibleTraces
             {
                 completed = true;
                 objectiveText.color = WarningFeedback;
+                objectiveText.text = "ORDER UNSAFE - TRACE THE CAUSE";
                 feedbackText.color = WarningFeedback;
-                feedbackText.text = "ORDER UNSAFE\n" + item.displayName +
-                                    " carries peanut contamination. Use Trace Mode to investigate, then reset.";
-                progressText.text = "OUTCOME: CROSS-CONTAMINATION DETECTED";
+                feedbackText.text = "CONTACT CHAIN\n" + item.GetSourceSummary() +
+                                    " -> " + item.displayName +
+                                    " -> peanut-free order. Reveal the trace, then reset and break the chain.";
+                progressText.text = "DEBRIEF: CONTACT, NOT APPEARANCE, DETERMINED THE OUTCOME";
                 return;
             }
 
@@ -101,9 +111,9 @@ namespace InvisibleTraces
             {
                 completed = true;
                 objectiveText.color = PositiveFeedback;
-                objectiveText.text = "ORDER COMPLETE";
-                feedbackText.text = "SAFE ORDER COMPLETED\nYou controlled the surface, hand, tool and ingredient pathway.";
-                progressText.text = "OUTCOME: SAFE PROCEDURE ACHIEVED";
+                objectiveText.text = "SAFE ORDER COMPLETE";
+                feedbackText.text = "CONTROLLED CONTACT CHAIN\nInspect -> clean surface -> wash hands -> use clean tools and ingredients.";
+                progressText.text = "DEBRIEF: THE SEQUENCE BROKE EVERY ALLERGEN TRANSFER PATH";
             }
         }
 
@@ -120,6 +130,7 @@ namespace InvisibleTraces
         {
             workstationClean = false;
             handsWashed = false;
+            inspectionCompleted = false;
             traceMode = false;
             completed = false;
             preparedItems.Clear();
@@ -145,9 +156,10 @@ namespace InvisibleTraces
         private void UpdateProgress()
         {
             progressText.text =
-                "WORKTOP " + Mark(workstationClean) +
-                "   HANDS " + Mark(handsWashed) +
-                "\nCLEAN KNIFE " + Mark(preparedItems.Contains("clean_knife")) +
+                "1 INSPECT " + Mark(inspectionCompleted) +
+                "   2 WORKTOP " + Mark(workstationClean) +
+                "   3 HANDS " + Mark(handsWashed) +
+                "\n4 KNIFE " + Mark(preparedItems.Contains("clean_knife")) +
                 "   BREAD " + Mark(preparedItems.Contains("bread")) +
                 "   VEG " + Mark(preparedItems.Contains("vegetables"));
         }

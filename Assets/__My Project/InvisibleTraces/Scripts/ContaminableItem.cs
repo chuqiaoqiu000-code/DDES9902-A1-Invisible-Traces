@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace InvisibleTraces
@@ -14,6 +15,7 @@ namespace InvisibleTraces
         private Renderer[] renderers;
         private Color[] normalColours;
         private bool traceMode;
+        private TMP_Text traceLabel;
 
         private static readonly Color TraceColour = new Color(0.95f, 0.12f, 0.72f);
 
@@ -24,7 +26,33 @@ namespace InvisibleTraces
             for (var i = 0; i < renderers.Length; i++)
                 normalColours[i] = renderers[i].material.color;
 
+            CreateTraceLabel();
             ResetContamination();
+        }
+
+        private void CreateTraceLabel()
+        {
+            var labelObject = new GameObject("Accessible Trace Label");
+            labelObject.transform.SetParent(transform, false);
+
+            var scale = transform.localScale;
+            labelObject.transform.localPosition = new Vector3(
+                0f,
+                0.5f + (0.22f / Mathf.Max(scale.y, 0.01f)),
+                -0.52f);
+            labelObject.transform.localScale = new Vector3(
+                1f / Mathf.Max(scale.x, 0.01f),
+                1f / Mathf.Max(scale.y, 0.01f),
+                1f / Mathf.Max(scale.z, 0.01f));
+
+            traceLabel = labelObject.AddComponent<TextMeshPro>();
+            traceLabel.text = "! ALLERGEN TRACE !";
+            traceLabel.fontSize = 0.72f;
+            traceLabel.fontStyle = FontStyles.Bold;
+            traceLabel.alignment = TextAlignmentOptions.Center;
+            traceLabel.color = Color.white;
+            traceLabel.rectTransform.sizeDelta = new Vector2(2.6f, 0.35f);
+            traceLabel.gameObject.SetActive(false);
         }
 
         public void ResetContamination()
@@ -54,6 +82,13 @@ namespace InvisibleTraces
             RefreshVisuals();
 
             InvisibleTracesManager.Instance?.ReportTransfer(source.displayName, displayName);
+        }
+
+        public string GetSourceSummary()
+        {
+            return contaminationSources.Count == 0
+                ? "unknown contact"
+                : string.Join(" -> ", contaminationSources);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -93,6 +128,9 @@ namespace InvisibleTraces
                         ? TraceColour
                         : normalColours[i];
             }
+
+            if (traceLabel != null)
+                traceLabel.gameObject.SetActive(traceMode && IsContaminated);
         }
     }
 }

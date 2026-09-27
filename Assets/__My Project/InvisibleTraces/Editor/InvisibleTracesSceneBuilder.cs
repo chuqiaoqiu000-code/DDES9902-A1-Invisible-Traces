@@ -144,6 +144,10 @@ public static class InvisibleTracesSceneBuilder
         Cube("TASK STEPS BOARD", new Vector3(4.35f, 3.35f, 5.82f), new Vector3(2.2f, 2.4f, 0.12f), p[9]);
         var steps = Text("Task Steps", "SAFE WORKFLOW\n\n1 - Inspect risk\n2 - Clean worktop\n3 - Wash hands\n4 - Place safe items", new Vector3(4.35f, 3.35f, 5.70f), 0.095f, Color.white, TextAlignmentOptions.Center);
         SetTextArea(steps, 1.85f, 2.0f);
+
+        Cube("SAFETY AND LIMITS BOARD", new Vector3(-4.35f, 1.75f, 5.82f), new Vector3(2.2f, 0.7f, 0.12f), p[4]);
+        var safety = Text("Safety and Limits", "TRAINING SIMULATION ONLY\nColour + text identify hazards\nNot a food-safety certification", new Vector3(-4.35f, 1.75f, 5.70f), 0.072f, Color.white, TextAlignmentOptions.Center);
+        SetTextArea(safety, 1.9f, 0.55f);
     }
 
     private static void CreateActionStations(Material[] p)

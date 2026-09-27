@@ -19,7 +19,9 @@ contact, fail safely, and immediately retry.
 
 `Trace Mode` reveals contaminated objects in magenta. It externalises an
 otherwise invisible chain of contact so the learner can connect an outcome to
-its spatial and procedural cause.
+its spatial and procedural cause. Every revealed hazard also receives a clear
+`ALLERGEN TRACE` text label, so critical information is not communicated by
+colour alone.
 
 The safe route is:
 
@@ -30,6 +32,22 @@ The safe route is:
 
 Placing a contaminated item in the zone produces an unsafe outcome and a
 specific causal explanation.
+
+Cleaning after washing deliberately invalidates the hand-safety step. This
+models the contact pathway rather than treating cleaning and handwashing as
+independent checklist items: the learner must wash again after touching the
+contaminated work area.
+
+## Ethical and safety boundaries
+
+- The prototype is explicitly labelled as a training simulation, not a food
+  safety certification or substitute for workplace procedures.
+- Hazards are communicated with both colour and text to reduce dependence on
+  colour perception.
+- Unsafe actions fail safely and provide causal feedback without exposing the
+  learner or another person to a real allergen.
+- The environment avoids time pressure, punishment and startling effects so a
+  learner can inspect, fail, reset and retry without unnecessary stress.
 
 ## Controls
 
